@@ -6,6 +6,7 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+ruby 2.7.2
 
 * System dependencies
 
@@ -22,3 +23,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+###Arquitecture of Inicial Project
+<img src="documents/projeto_back_sprint1 (1).png>
