@@ -26,4 +26,4 @@ ruby 2.7.2
 
 
 ###Arquitecture of Inicial Project
-<img src="documents/projeto_back_sprint1 (1).png>
+<img src="./documents/projeto_back_sprint1 (1).png>
