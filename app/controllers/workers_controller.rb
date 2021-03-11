@@ -16,14 +16,14 @@ class WorkersController < ApplicationController
   end
 
   def create
-    worker = Worker.create(params.require(:worker).permit(:clerk, :official))
+    worker = Worker.create(params.require(:worker).permit(:clerk_id, :official_id))
 
     render json: worker, status: 201
   end
 
   def update
     worker = Worker.find(params[:id])
-    worker.update(params.require(:worker).permit(:clerk, :official))
+    worker.update(params.require(:worker).permit(:clerk_id, :official_id))
 
     render json: worker, status: 200
   end

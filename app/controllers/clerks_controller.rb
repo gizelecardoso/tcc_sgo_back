@@ -16,14 +16,14 @@ class ClerksController < ApplicationController
   end
 
   def create
-    clerk = Clerk.create(params.require(:clerk).permit(:company, :official))
+    clerk = Clerk.create(params.require(:clerk).permit(:company_id, :official_id))
 
     render json: clerk, status: 201
   end
 
   def update
     clerk = Clerk.where(id: params[:id]).first
-    clerk.update(params.require(:clerk).permit(:company, :official))
+    clerk.update(params.require(:clerk).permit(:company_id, :official_id))
 
     render json: clerk, status: 200
   end

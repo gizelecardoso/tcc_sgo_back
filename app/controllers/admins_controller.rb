@@ -16,14 +16,14 @@ class AdminsController < ApplicationController
   end
 
   def create
-    admin = Admin.create(params.require(:admin).permit(:official))
+    admin = Admin.create(params.require(:admin).permit(:official_id))
 
     render json: admin, status: 201
   end
 
   def update
     admin = Admin.find(params[:id])
-    admin.update(params.require(:admin).permit(:official))
+    admin.update(params.require(:admin).permit(:official_id))
 
     render json: admin, status: 200
   end
@@ -31,7 +31,6 @@ class AdminsController < ApplicationController
   def destroy
     admin = Admin.find(params[:id])
     admin.delete
-    
     render json: '', status: 204
   end
 end

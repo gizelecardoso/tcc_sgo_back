@@ -16,14 +16,13 @@ class OfficialsController < ApplicationController
   end
 
   def create
-    official = Official.create(params.require(:official).permit(:official_code, :official_name, :role))
-
+    official = Services::Creator.call(official_params)
     render json: official, status: 201
   end
 
   def update
     official = Official.find(params[:id])
-    official.update(params.require(:official).permit(:official_code, :official_name, :role))
+    official.update(official_params)
 
     render json: official, status: 200
   end
@@ -33,4 +32,9 @@ class OfficialsController < ApplicationController
     official.delete
     render json: '', status: 204
   end
+
+  def official_params
+    params.require(:official).permit(:official_code, :official_name, :role_id)
+  end
+
 end
