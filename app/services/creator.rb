@@ -11,25 +11,27 @@ class Creator < ApplicationService
 
   def call
     new_official = Official.new(@official)
+    name = create_login_name(new_official)
+    password = create_login_password(new_official)
 
     Official.create(
       official_code: new_official.official_code,
       official_name: new_official.official_name,
-      clerk_id: new_official.clerk_id,
-      login_name: create_login_name(new_official),
-      login_password: create_login_password(new_official)
+      role_id: new_official.role_id,
+      login_name: name,
+      login_password: password
     )
   end
 
   private
 
-  def create_login_name(_official)
-    part_name = @official[:official_name].split('')
-    `#{part_name.first.downcase}.#{part_name.last.downcase}`
+  def create_login_name(new_official)
+    part_name = @official[:official_name].split(' ')
+    new_official.login_name = "#{part_name[0].downcase}.#{part_name[-1].downcase}"
   end
 
-  def create_login_password(_official)
-    `sgo#{(SecureRandom.random_number * (10**10)).round}`
+  def create_login_password(new_official)
+    new_official.login_password = "sgo#{(SecureRandom.random_number * (10**10)).round}"
   end
 end
 

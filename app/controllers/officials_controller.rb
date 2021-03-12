@@ -16,7 +16,7 @@ class OfficialsController < ApplicationController
   end
 
   def create
-    official = Services::Creator.call(official_params)
+    official = ::Creator.call(official_params)
     render json: official, status: 201
   end
 
