@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_233627) do
     t.string "official_code"
     t.string "official_name"
     t.string "login_name"
-    t.string "login_password"
+    t.string "password_digest"
     t.integer "role_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

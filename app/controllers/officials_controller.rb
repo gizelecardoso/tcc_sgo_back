@@ -2,6 +2,8 @@
 
 # Contoller Officials
 class OfficialsController < ApplicationController
+  before_action :authorized, only: [:auto_login]
+
   def index
     render json: Official.all
   end
@@ -16,8 +18,13 @@ class OfficialsController < ApplicationController
   end
 
   def create
-    official = ::Creator.call(official_params)
-    render json: official, status: 201
+    @official = ::Creator.call(official_params)
+    if @official.valid?
+      token = encode_token({ official_id: @official.id })
+      render json: { official: @official, token: token }, status: 201
+    else
+      render json: { error: 'Usuario ou senha invalidos' }
+    end
   end
 
   def update
@@ -33,8 +40,24 @@ class OfficialsController < ApplicationController
     render json: '', status: 204
   end
 
+  def login
+    @official = Official.find_by(login_name: params[:login_name])
+
+    if @official && @official.authenticate(params[:password])
+      token = encode_token({ official_id: @official.id })
+      render json: { official: @official, token: token }
+    else
+      render json: { error: 'Usuario ou senha invalidos' }, status: :unauthorized
+    end
+  end
+
+  def auto_login
+    render json: @official
+  end
+
+  private
+
   def official_params
     params.require(:official).permit(:official_code, :official_name, :role_id)
   end
-
 end

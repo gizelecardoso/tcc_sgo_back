@@ -2,6 +2,8 @@
 
 # Contoller Roles
 class RolesController < ApplicationController
+  before_action :authorized, only: [:auto_login]
+
   def index
     render json: Role.all
   end

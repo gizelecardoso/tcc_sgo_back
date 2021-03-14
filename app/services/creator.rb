@@ -12,14 +12,14 @@ class Creator < ApplicationService
   def call
     new_official = Official.new(@official)
     name = create_login_name(new_official)
-    password = create_login_password(new_official)
+    password = create_password(new_official)
 
     Official.create(
       official_code: new_official.official_code,
       official_name: new_official.official_name,
       role_id: new_official.role_id,
       login_name: name,
-      login_password: password
+      password: password
     )
   end
 
@@ -30,8 +30,8 @@ class Creator < ApplicationService
     new_official.login_name = "#{part_name[0].downcase}.#{part_name[-1].downcase}"
   end
 
-  def create_login_password(new_official)
-    new_official.login_password = "sgo#{(SecureRandom.random_number * (10**10)).round}"
+  def create_password(new_official)
+    new_official.password = "sgo#{(SecureRandom.random_number * (10**10)).round}"
   end
 end
 

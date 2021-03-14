@@ -4,8 +4,8 @@ class CreateOfficials < ActiveRecord::Migration[6.1]
       t.string :official_code
       t.string :official_name
       t.string :login_name
-      t.string :login_password
-      t.references :role, foreign_key:true
+      t.string :password_digest
+      t.references :role, foreign_key: true
 
       t.timestamps
     end

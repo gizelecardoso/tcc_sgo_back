@@ -5,3 +5,18 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+Role.create(
+  role_code: "R0001",
+  role_name: "Mestre de Obras",
+  role_description: "Responsavel por Gerenciar profissionais que executam as tarefas da Obra."
+)
+
+Official.create(
+  official_code: "O0001",
+  official_name: "José Carlos",
+  login_name: "jose.carlos",
+  password: "sgo1234567897",
+  role_id: 1
+)

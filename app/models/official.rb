@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Official < ApplicationRecord
+  has_secure_password
   belongs_to :role
   has_many :admins
   has_many :clerks

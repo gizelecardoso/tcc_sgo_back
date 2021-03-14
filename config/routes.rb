@@ -8,4 +8,7 @@ Rails.application.routes.draw do
   resources :clerks, only: [:index, :show, :create, :update, :destroy]
   resources :companies, only: [:index, :show, :create, :update, :destroy]
 
+  post '/login', to: 'officials#login'
+  get '/auto_login', to: 'officials#auto_login'
+
 end
