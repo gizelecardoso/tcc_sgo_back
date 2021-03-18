@@ -31,7 +31,7 @@ class Creator < ApplicationService
   end
 
   def create_password(new_official)
-    new_official.password = "sgo#{(SecureRandom.random_number * (10**10)).round}"
+    #new_official.password = "sgo#{(SecureRandom.random_number * (10**10)).round}"
+    new_official.password = "sgo1234567897"
   end
 end
-
