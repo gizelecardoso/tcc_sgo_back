@@ -2,6 +2,8 @@
 
 # Contoller Workers
 class WorkersController < ApplicationController
+  before_action :authorized, only: [:auto_login]
+
   def index
     render json: Worker.all
   end

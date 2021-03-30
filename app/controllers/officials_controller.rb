@@ -19,6 +19,8 @@ class OfficialsController < ApplicationController
 
   def create
     @official = ::Creator.call(official_params)
+    # byebug
+    # clerk = create_relation(params, @official)
     if @official.valid?
       token = encode_token({ official_id: @official.id })
       render json: { official: @official, token: token }, status: 201
@@ -58,6 +60,10 @@ class OfficialsController < ApplicationController
   private
 
   def official_params
-    params.require(:official).permit(:official_code, :official_name, :role_id)
+    params.require(:official).permit(:official_code, :official_name, :role_id, :category, :relation_id)
+  end
+
+  def create_relation(official_params, official)
+    clerk = ::RelationshipCreator.call(official_params, official)
   end
 end

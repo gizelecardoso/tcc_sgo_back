@@ -2,8 +2,16 @@
 
 # Contoller Clerks
 class ClerksController < ApplicationController
+  before_action :authorized, only: [:auto_login]
+
   def index
-    render json: Clerk.all
+    # render json: Clerk.all
+    clerks = Clerk.all
+    lista = []
+    clerks.each do |clerk|
+      lista << { name: clerk.official.official_name, id: clerk.id }
+    end
+    render json: lista
   end
 
   def show
