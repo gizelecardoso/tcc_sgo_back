@@ -18,14 +18,14 @@ class RolesController < ApplicationController
   end
 
   def create
-    role = Role.create(params.require(:role).permit(:role_code, :role_name, :role_description))
+    role = Role.create(role_params)
 
     render json: role, status: 201
   end
 
   def update
     role = Role.find(params[:id])
-    role.update(params.require(:role).permit(:role_code, :role_name, :role_description))
+    role.update(role_params)
 
     render json: role, status: 200
   end
@@ -34,5 +34,11 @@ class RolesController < ApplicationController
     role = Role.find(params[:id])
     role.delete
     render json: '', status: 204
+  end
+
+  private
+
+  def role_params
+    params.require(:role).permit(:role_code, :role_name, :role_description, :role_category)
   end
 end

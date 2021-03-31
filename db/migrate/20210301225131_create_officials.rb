@@ -6,6 +6,7 @@ class CreateOfficials < ActiveRecord::Migration[6.1]
       t.string :login_name
       t.string :password_digest
       t.references :role, foreign_key: true
+      t.references :company, foreign_key: true
 
       t.timestamps
     end

@@ -10,23 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_01_233627) do
-
-  create_table "admins", force: :cascade do |t|
-    t.integer "official_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["official_id"], name: "index_admins_on_official_id"
-  end
-
-  create_table "clerks", force: :cascade do |t|
-    t.integer "company_id"
-    t.integer "official_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["company_id"], name: "index_clerks_on_company_id"
-    t.index ["official_id"], name: "index_clerks_on_official_id"
-  end
+ActiveRecord::Schema.define(version: 2021_03_31_181931) do
 
   create_table "companies", force: :cascade do |t|
     t.string "company_code"
@@ -42,33 +26,23 @@ ActiveRecord::Schema.define(version: 2021_03_01_233627) do
     t.string "login_name"
     t.string "password_digest"
     t.integer "role_id"
+    t.integer "company_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "clerk_id"
+    t.index ["company_id"], name: "index_officials_on_company_id"
     t.index ["role_id"], name: "index_officials_on_role_id"
   end
 
   create_table "roles", force: :cascade do |t|
     t.string "role_code"
     t.string "role_name"
+    t.string "role_category"
     t.text "role_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "workers", force: :cascade do |t|
-    t.float "performance"
-    t.integer "clerk_id"
-    t.integer "official_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["clerk_id"], name: "index_workers_on_clerk_id"
-    t.index ["official_id"], name: "index_workers_on_official_id"
-  end
-
-  add_foreign_key "admins", "officials"
-  add_foreign_key "clerks", "companies"
-  add_foreign_key "clerks", "officials"
+  add_foreign_key "officials", "companies"
   add_foreign_key "officials", "roles"
-  add_foreign_key "workers", "clerks"
-  add_foreign_key "workers", "officials"
 end

@@ -3,11 +3,12 @@
 class Official < ApplicationRecord
   has_secure_password
   belongs_to :role
-  has_many :admins
-  has_many :clerks
-  has_many :workers
+  belongs_to :company
+  belongs_to :clerk, class_name: 'Official', foreign_key: :clerk_id
+  has_many :officials, class_name: 'Official', foreign_key: :id
 
   validates :official_code, presence: true, uniqueness: true
   validates :official_name, presence: true, uniqueness: true
   validates :role_id, presence: true
+  validates :company_id, presence: true
 end

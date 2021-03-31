@@ -14,12 +14,14 @@ class Creator < ApplicationService
     name = create_login_name(new_official)
     password = create_password(new_official)
 
-    Official.create(
+    Official.create!(
       official_code: new_official.official_code,
       official_name: new_official.official_name,
       role_id: new_official.role_id,
       login_name: name,
-      password: password
+      password: password,
+      clerk_id: new_official.clerk_id,
+      company_id: new_official.company_id
     )
   end
 

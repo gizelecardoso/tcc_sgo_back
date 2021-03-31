@@ -5,7 +5,12 @@ class OfficialsController < ApplicationController
   before_action :authorized, only: [:auto_login]
 
   def index
-    render json: Official.all
+    if params[:only_clerks] == 'true'
+      roles = Role.where(role_category: 'encarregado')
+      render json: Official.where(role: roles)
+    else
+      render json: Official.all
+    end
   end
 
   def show
@@ -19,8 +24,6 @@ class OfficialsController < ApplicationController
 
   def create
     @official = ::Creator.call(official_params)
-    # byebug
-    # clerk = create_relation(params, @official)
     if @official.valid?
       token = encode_token({ official_id: @official.id })
       render json: { official: @official, token: token }, status: 201
@@ -60,7 +63,7 @@ class OfficialsController < ApplicationController
   private
 
   def official_params
-    params.require(:official).permit(:official_code, :official_name, :role_id, :category, :relation_id)
+    params.require(:official).permit(:official_code, :official_name, :role_id, :company_id, :clerk_id)
   end
 
   def create_relation(official_params, official)
