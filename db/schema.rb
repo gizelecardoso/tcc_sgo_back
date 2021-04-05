@@ -10,7 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_31_181931) do
+ActiveRecord::Schema.define(version: 2021_04_05_191518) do
+
+  create_table "activities", force: :cascade do |t|
+    t.string "activity_code"
+    t.string "activity_name"
+    t.string "activity_description"
+    t.datetime "expected_initial_date"
+    t.datetime "expected_final_date"
+    t.datetime "initial_date"
+    t.datetime "final_date"
+    t.datetime "stopped_date"
+    t.string "activity_status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "activity_items", force: :cascade do |t|
+    t.string "item_name"
+    t.string "item_status"
+    t.integer "activity_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_activity_items_on_activity_id"
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string "company_code"
@@ -43,6 +66,7 @@ ActiveRecord::Schema.define(version: 2021_03_31_181931) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "activity_items", "activities"
   add_foreign_key "officials", "companies"
   add_foreign_key "officials", "roles"
 end

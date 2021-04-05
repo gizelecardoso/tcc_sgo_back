@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  activity_code: MyString
+  activity_name: MyString
+  activity_description: MyString
+  expected_initial_date: 
+  expected_final_date: 
+  initial_date: 
+  final_date: 
+  stopped_date: 
+
+two:
+  activity_code: MyString
+  activity_name: MyString
+  activity_description: MyString
+  expected_initial_date: 
+  expected_final_date: 
+  initial_date: 
+  final_date: 
+  stopped_date: 
