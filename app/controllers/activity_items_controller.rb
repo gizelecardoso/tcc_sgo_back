@@ -42,7 +42,7 @@ class ActivityItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:item_name, :item_status, :activity_id)
+    params.require(:activity_item).permit(:item_name, :item_status, :activity_id)
   end
 end
 

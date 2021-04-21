@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_05_191518) do
+ActiveRecord::Schema.define(version: 2021_04_21_190805) do
 
   create_table "activities", force: :cascade do |t|
     t.string "activity_code"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 2021_04_05_191518) do
     t.string "activity_status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "official_id"
+    t.index ["official_id"], name: "index_activities_on_official_id"
   end
 
   create_table "activity_items", force: :cascade do |t|
@@ -66,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_04_05_191518) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "activities", "officials"
   add_foreign_key "activity_items", "activities"
   add_foreign_key "officials", "companies"
   add_foreign_key "officials", "roles"
