@@ -3,7 +3,7 @@
 # Model to activities with some validations
 class Activity < ApplicationRecord
   has_many :activity_items
-  belongs_to :official
+  belongs_to :official, optional: true
 
   validates :activity_code, presence: true, uniqueness: true
   validates :activity_name, presence: true

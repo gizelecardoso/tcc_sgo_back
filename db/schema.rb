@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2021_04_21_190805) do
     t.string "official_code"
     t.string "official_name"
     t.string "login_name"
+    t.string "cellphone"
     t.string "password_digest"
     t.integer "role_id"
     t.integer "company_id"

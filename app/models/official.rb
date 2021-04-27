@@ -4,7 +4,7 @@ class Official < ApplicationRecord
   has_secure_password
   belongs_to :role
   belongs_to :company
-  belongs_to :clerk, class_name: 'Official', foreign_key: :clerk_id
+  belongs_to :clerk, class_name: 'Official', foreign_key: :clerk_id, optional: true
   has_many :officials, class_name: 'Official', foreign_key: :id
   has_many :activities
 
