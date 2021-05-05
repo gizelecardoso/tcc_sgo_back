@@ -8,6 +8,20 @@ class OfficialsController < ApplicationController
     if params[:only_clerks] == 'true'
       roles = Role.where(role_category: 'encarregado')
       render json: Official.where(role: roles)
+    elsif params[:only_official] == 'true'
+      roles = Role.where(role_category: 'oficial')
+      if params[:clerk_id].present?
+        officials = Official.where(role: roles, clerk_id: params[:clerk_id].to_i)
+      else
+        officials = Official.where(role: roles)
+      end
+      if params[:free] == 'true'
+        free_official = officials.all.reject do |official|
+          Activity.where(official_id: official.id, activity_status: ['pendente', 'executando', 'pausada', 'atrasada']).present?
+        end
+        return render json: free_official
+      end
+      render json: officials
     else
       render json: Official.all
     end
