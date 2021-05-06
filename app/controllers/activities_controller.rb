@@ -42,6 +42,7 @@ class ActivitiesController < ApplicationController
 
   def activities_params
     params.require(:activity).permit(:activity_code, :activity_name, :activity_description,
-                                     :activity_status, :expected_initial_date, :expected_final_date, :official_id)
+                                     :activity_status, :expected_initial_date, :expected_final_date, :official_id,
+                                     :final_date, :stopped_date, :initial_date)
   end
 end
