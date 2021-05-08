@@ -2,7 +2,13 @@ class ActivitiesController < ApplicationController
   before_action :authorized, only: [:auto_login]
 
   def index
-    render json: Activity.all
+    if params[:late] == 'true'
+      validated_late_activity
+      activities = Activity.where(activity_status: 'atrasada')
+      render json: activities
+    else
+      render json: Activity.all
+    end
   end
 
   def show
@@ -16,8 +22,9 @@ class ActivitiesController < ApplicationController
 
   def create
     activity = Activity.create!(activities_params)
-
     render json: activity, status: 201
+  rescue Exception => ex
+    puts "Houve um erro: " + ex.message
   end
 
   def update
@@ -44,5 +51,12 @@ class ActivitiesController < ApplicationController
     params.require(:activity).permit(:activity_code, :activity_name, :activity_description,
                                      :activity_status, :expected_initial_date, :expected_final_date, :official_id,
                                      :final_date, :stopped_date, :initial_date)
+  end
+
+  def validated_late_activity
+    hoje = Time.current
+    Activity.where('activity_status': ['pendente', 'executando', 'parada', 'atrasada']).and(Activity.where('expected_final_date < ?', hoje)).each do |activity|
+      activity.update!(activity_status: 'atrasada')
+    end
   end
 end
