@@ -61,10 +61,11 @@ class OfficialsController < ApplicationController
 
   def login
     @official = Official.find_by(login_name: params[:login_name])
+    @category =  @official.role.role_category
 
     if @official && @official.authenticate(params[:password])
       token = encode_token({ official_id: @official.id })
-      render json: { official: @official, token: token }
+      render json: { official: @official, token: token, category: @category }
     else
       render json: { error: 'Usuario ou senha invalidos' }, status: :unauthorized
     end

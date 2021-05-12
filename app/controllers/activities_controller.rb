@@ -6,6 +6,9 @@ class ActivitiesController < ApplicationController
       validated_late_activity
       activities = Activity.where(activity_status: 'atrasada')
       render json: activities
+    elsif params[:category] == 'encarregado' && params[:category] == 'oficial'
+      activities = Activity.where(official_id: params[:official_id])
+      render json: activities
     else
       render json: Activity.all
     end
