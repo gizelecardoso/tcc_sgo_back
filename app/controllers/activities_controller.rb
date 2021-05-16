@@ -6,8 +6,12 @@ class ActivitiesController < ApplicationController
       validated_late_activity
       activities = Activity.where(activity_status: 'atrasada')
       render json: activities
-    elsif params[:category] == 'encarregado' && params[:category] == 'oficial'
+    elsif params[:category] == 'oficial'
       activities = Activity.where(official_id: params[:official_id])
+      render json: activities
+    elsif params[:category] == 'encarregado'
+      official_ids = Official.where(clerk_id: params[:official_id]).map(&:id)
+      activities = Activity.where(official_id: official_ids)
       render json: activities
     else
       render json: Activity.all
@@ -15,7 +19,11 @@ class ActivitiesController < ApplicationController
   end
 
   def show
-    activity = Activity.where(id: params[:id]).first
+    if params[:category] == 'oficial'
+      activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'parada', 'atrasada'])
+      render json: activities
+    else
+      activity = Activity.where(id: params[:id]).first
     if activity.present?
       render json: activity
     else
