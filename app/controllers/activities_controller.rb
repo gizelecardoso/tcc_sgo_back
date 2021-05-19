@@ -19,11 +19,12 @@ class ActivitiesController < ApplicationController
   end
 
   def show
-    if params[:category] == 'oficial'
-      activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'parada', 'atrasada'])
-      render json: activities
-    else
+    # if params[:category] == 'oficial'
+    #   activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'parada', 'atrasada'])
+    #   render json: activities
+    # else
       activity = Activity.where(id: params[:id]).first
+    # end
     if activity.present?
       render json: activity
     else

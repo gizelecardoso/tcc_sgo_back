@@ -23,8 +23,17 @@ class Activity < ApplicationRecord
     self.activity_status = 'nova'
   end
 
-  private
+  def calcula_evolucao
+    todos = activity_items.all
+    total = todos.size.to_f
 
+    realizado = todos.select { |p| p.item_status == 'finalizado' }.size
+
+    self.evolution = realizado / total * 100
+    save
+  end
+
+  private
   # def validated_late_activity
   #   hoje = Time.current
   #   Activity.where(%w[nova pendente executando parada].include?(activity_status), 'expected_final_date < ?', hoje).update(activity_status: 'atrasado')
@@ -70,6 +79,8 @@ class Activity < ApplicationRecord
 
     errors.add(:activity_status, 'status cant be changed') if status == 'finalizada' && activity_status != 'finalizada'
   end
+
+
 
   # def before_create
   #   activity_status = 'nova'
