@@ -2,29 +2,32 @@ class ActivitiesController < ApplicationController
   before_action :authorized, only: [:auto_login]
 
   def index
-    if params[:late] == 'true'
+    if params[:late] == 'true' && params[:category] == 'administrador'
       validated_late_activity
-      activities = Activity.where(activity_status: 'atrasada')
+      activities = Activity.where(activity_status: ['parada', 'atrasada'])
       render json: activities
     elsif params[:category] == 'oficial'
       activities = Activity.where(official_id: params[:official_id])
       render json: activities
     elsif params[:category] == 'encarregado'
       official_ids = Official.where(clerk_id: params[:official_id]).map(&:id)
-      activities = Activity.where(official_id: official_ids)
+      if params[:late] == 'true'
+        validated_late_activity
+        activities = Activity.where(official_id: official_ids, activity_status: ['parada', 'atrasada'])
+      else
+        activities = Activity.where(official_id: official_ids)
+      end
       render json: activities
+    elsif params[:only_one] == 'true'
+      activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'parada', 'atrasada']).first
+      render json: activity
     else
       render json: Activity.all
     end
   end
 
   def show
-    # if params[:category] == 'oficial'
-    #   activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'parada', 'atrasada'])
-    #   render json: activities
-    # else
-      activity = Activity.where(id: params[:id]).first
-    # end
+    activity = Activity.where(id: params[:id]).first
     if activity.present?
       render json: activity
     else
