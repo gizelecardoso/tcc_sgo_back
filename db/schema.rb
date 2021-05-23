@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_18_232738) do
+ActiveRecord::Schema.define(version: 2021_05_23_162636) do
 
   create_table "activities", force: :cascade do |t|
     t.string "activity_code"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2021_05_18_232738) do
     t.integer "activity_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "finished_date"
     t.index ["activity_id"], name: "index_activity_items_on_activity_id"
   end
 
