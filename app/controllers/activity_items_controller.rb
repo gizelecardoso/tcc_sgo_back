@@ -2,7 +2,11 @@ class ActivityItemsController < ApplicationController
   before_action :authorized, only: [:auto_login]
 
   def index
-    items = ActivityItem.where(activity_id: params[:activity_id])
+    if params[:not_finished]
+      items = ActivityItem.where(activity_id: params[:activity_id]).where.not(item_status: 'finalizado')
+    else
+      items = ActivityItem.where(activity_id: params[:activity_id])
+    end
     render json: items
   end
 

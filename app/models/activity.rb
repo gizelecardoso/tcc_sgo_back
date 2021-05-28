@@ -33,6 +33,15 @@ class Activity < ApplicationRecord
     save
   end
 
+  # def calcula_desempenho
+  #   if DateTime.current <= expected_final_date
+  #     self.desempenho = self.evolution
+  #   else
+  #     self.desempenho = self.evolution
+  #     self.desempenho = self.desempenho - self.desempenho * 10/100 (DateTime.current - expected_final_date)
+  #   end
+  # end
+
   private
   # def validated_late_activity
   #   hoje = Time.current
@@ -58,22 +67,24 @@ class Activity < ApplicationRecord
     status = Activity.find(id).activity_status
 
     if status == 'pendente' && %w[pendente executando atrasada].exclude?(activity_status)
-      errors.add(:activity_status, 'status must be executing or pending or late')
+      errors.add(:activity_status, 'status must be pending or executing or late')
     end
 
     if status == 'executando' && %w[executando pausada finalizada cancelada atrasada].exclude?(activity_status)
-      errors.add(:activity_status, 'status must be executing or late or finished')
+      errors.add(:activity_status, 'status must be executing or stopped or finished or canceled or late')
     end
 
     if status == 'pausada' && %w[executando pausada cancelada atrasada].exclude?(activity_status)
-      errors.add(:activity_status, 'status must be executing or canceled or late')
+      errors.add(:activity_status, 'status must be executing or stopped or canceled or late')
     end
 
-    if status == 'atrasada' && %w[finalizada atrasada cancelada].exclude?(activity_status)
-      errors.add(:activity_status, 'status must be canceled or fineshed or late')
+    if status == 'atrasada' && %w[pausada finalizada atrasada cancelada].exclude?(activity_status)
+      errors.add(:activity_status, 'status must be stopped or fineshed or late or canceled')
     end
 
-    errors.add(:activity_status, 'status must be pending') if status == 'nova' && activity_status != 'pendente'
+    if status == 'nova' && %w[nova pendente].exclude?(activity_status)
+      errors.add(:activity_status, 'status must be new or pending or late or canceled')
+    end
 
     errors.add(:activity_status, 'status mustnt be changed') if status == 'cancelada'
 

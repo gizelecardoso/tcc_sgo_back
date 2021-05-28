@@ -4,7 +4,7 @@ class ActivitiesController < ApplicationController
   def index
     if params[:late] == 'true' && params[:category] == 'administrador'
       validated_late_activity
-      activities = Activity.where(activity_status: ['parada', 'atrasada'])
+      activities = Activity.where(activity_status: ['pausada', 'atrasada'])
       render json: activities
     elsif params[:category] == 'oficial'
       activities = Activity.where(official_id: params[:official_id])
@@ -13,13 +13,13 @@ class ActivitiesController < ApplicationController
       official_ids = Official.where(clerk_id: params[:official_id]).map(&:id)
       if params[:late] == 'true'
         validated_late_activity
-        activities = Activity.where(official_id: official_ids, activity_status: ['parada', 'atrasada'])
+        activities = Activity.where(official_id: official_ids, activity_status: ['pausada', 'atrasada'])
       else
         activities = Activity.where(official_id: official_ids)
       end
       render json: activities
     elsif params[:only_one] == 'true'
-      activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'parada', 'atrasada']).first
+      activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'atrasada', 'pausada']).first
       render json: activity
     else
       render json: Activity.all
