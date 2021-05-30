@@ -19,6 +19,10 @@ class OfficialsController < ApplicationController
         free_official = officials.all.reject do |official|
           Activity.where(official_id: official.id, activity_status: ['pendente', 'executando', 'pausada', 'atrasada']).present?
         end
+        if params[:delegate] == 'true'
+          official = Official.where(id: params[:id]).first
+          free_official << official
+        end
         return render json: free_official
       end
       render json: officials
