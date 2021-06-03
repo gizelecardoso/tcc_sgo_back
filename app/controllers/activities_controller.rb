@@ -21,6 +21,8 @@ class ActivitiesController < ApplicationController
     elsif params[:only_one] == 'true'
       activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'atrasada', 'pausada']).first
       render json: activity
+    elsif params[:evolution] == 'true'
+      render json: Activity.where(id: params[:id]).first.evolution
     else
       render json: Activity.all
     end
