@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
   before_action :authorized, only: [:auto_login]
 
   def index
-    render json: Company.all
+    render json: Company.all.order('company_name')
   end
 
   def show

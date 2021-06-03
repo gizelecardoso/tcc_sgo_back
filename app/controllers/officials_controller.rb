@@ -7,13 +7,13 @@ class OfficialsController < ApplicationController
   def index
     if params[:only_clerks] == 'true'
       roles = Role.where(role_category: 'encarregado')
-      render json: Official.where(role: roles)
+      render json: Official.where(role: roles).order('official_name')
     elsif params[:only_official] == 'true'
       roles = Role.where(role_category: 'oficial')
       if params[:clerk_id].present?
-        officials = Official.where(role: roles, clerk_id: params[:clerk_id].to_i)
+        officials = Official.where(role: roles, clerk_id: params[:clerk_id].to_i).order('official_name')
       else
-        officials = Official.where(role: roles)
+        officials = Official.where(role: roles).order('official_name')
       end
       if params[:free] == 'true'
         free_official = officials.all.reject do |official|
@@ -27,7 +27,7 @@ class OfficialsController < ApplicationController
       end
       render json: officials
     else
-      render json: Official.all
+      render json: Official.all.order('official_name')
     end
   end
 

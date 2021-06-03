@@ -4,27 +4,27 @@ class ActivitiesController < ApplicationController
   def index
     if params[:late] == 'true' && params[:category] == 'administrador'
       validated_late_activity
-      activities = Activity.where(activity_status: ['pausada', 'atrasada'])
+      activities = Activity.where(activity_status: %w[pausada atrasada]).order('expected_initial_date')
       render json: activities
     elsif params[:category] == 'oficial'
-      activities = Activity.where(official_id: params[:official_id])
+      activities = Activity.where(official_id: params[:official_id]).order('expected_initial_date')
       render json: activities
     elsif params[:category] == 'encarregado'
-      official_ids = Official.where(clerk_id: params[:official_id]).map(&:id)
+      official_ids = Official.where(clerk_id: params[:official_id]).map(&:id).order('expected_initial_date')
       if params[:late] == 'true'
         validated_late_activity
-        activities = Activity.where(official_id: official_ids, activity_status: ['pausada', 'atrasada'])
+        activities = Activity.where(official_id: official_ids, activity_status: %w[pausada atrasada]).order('expected_initial_date')
       else
-        activities = Activity.where(official_id: official_ids)
+        activities = Activity.where(official_id: official_ids).order('expected_initial_date DESC')
       end
       render json: activities
     elsif params[:only_one] == 'true'
-      activity = Activity.where(official_id: params[:official_id], 'activity_status': ['pendente', 'executando', 'atrasada', 'pausada']).first
+      activity = Activity.where(official_id: params[:official_id], 'activity_status': %w[pendente executando atrasada pausada]).first
       render json: activity
     elsif params[:evolution] == 'true'
       render json: Activity.where(id: params[:id]).first.evolution
     else
-      render json: Activity.all
+      render json: Activity.all.order('expected_initial_date')
     end
   end
 
@@ -67,12 +67,12 @@ class ActivitiesController < ApplicationController
   def activities_params
     params.require(:activity).permit(:activity_code, :activity_name, :activity_description,
                                      :activity_status, :expected_initial_date, :expected_final_date, :official_id,
-                                     :final_date, :stopped_date, :initial_date)
+                                     :final_date, :stopped_date, :initial_date, :reason_to_stop)
   end
 
   def validated_late_activity
     hoje = Time.current
-    Activity.where('activity_status': ['pendente', 'executando', 'parada', 'atrasada']).and(Activity.where('expected_final_date < ?', hoje)).each do |activity|
+    Activity.where('activity_status': %w[pendente executando pausada atrasada]).and(Activity.where('expected_final_date < ?', hoje)).each do |activity|
       activity.update!(activity_status: 'atrasada')
     end
   end

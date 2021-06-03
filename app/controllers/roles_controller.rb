@@ -5,7 +5,7 @@ class RolesController < ApplicationController
   before_action :authorized, only: [:auto_login]
 
   def index
-    render json: Role.all
+    render json: Role.all.order('role_name')
   end
 
   def show

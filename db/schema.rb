@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_23_162636) do
+ActiveRecord::Schema.define(version: 2021_06_03_034204) do
 
   create_table "activities", force: :cascade do |t|
     t.string "activity_code"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_05_23_162636) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "official_id"
     t.float "evolution"
+    t.string "reason_to_stop"
     t.index ["official_id"], name: "index_activities_on_official_id"
   end
 
