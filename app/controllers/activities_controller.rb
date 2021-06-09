@@ -10,7 +10,7 @@ class ActivitiesController < ApplicationController
       activities = Activity.where(official_id: params[:official_id]).order('expected_initial_date')
       render json: activities
     elsif params[:category] == 'encarregado'
-      official_ids = Official.where(clerk_id: params[:official_id]).map(&:id).order('expected_initial_date')
+      official_ids = Official.where(clerk_id: params[:official_id]).map(&:id)
       if params[:late] == 'true'
         validated_late_activity
         activities = Activity.where(official_id: official_ids, activity_status: %w[pausada atrasada]).order('expected_initial_date')
