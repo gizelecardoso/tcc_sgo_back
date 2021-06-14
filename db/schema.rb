@@ -16,11 +16,11 @@ ActiveRecord::Schema.define(version: 2021_06_03_034204) do
     t.string "activity_code"
     t.string "activity_name"
     t.string "activity_description"
-    t.datetime "expected_initial_date"
-    t.datetime "expected_final_date"
-    t.datetime "initial_date"
-    t.datetime "final_date"
-    t.datetime "stopped_date"
+    t.date "expected_initial_date"
+    t.date "expected_final_date"
+    t.date "initial_date"
+    t.date "final_date"
+    t.date "stopped_date"
     t.string "activity_status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_034204) do
     t.integer "activity_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "finished_date"
+    t.date "finished_date"
     t.index ["activity_id"], name: "index_activity_items_on_activity_id"
   end
 

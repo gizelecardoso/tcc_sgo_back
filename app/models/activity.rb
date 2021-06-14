@@ -74,15 +74,15 @@ class Activity < ApplicationRecord
       errors.add(:activity_status, 'status must be executing or stopped or finished or canceled or late')
     end
 
-    if status == 'pausada' && %w[executando pausada cancelada atrasada].exclude?(activity_status)
+    if status == 'pausada' && %w[executando pausada cancelada].exclude?(activity_status)
       errors.add(:activity_status, 'status must be executing or stopped or canceled or late')
     end
 
-    if status == 'atrasada' && %w[pausada finalizada atrasada cancelada].exclude?(activity_status)
-      errors.add(:activity_status, 'status must be stopped or fineshed or late or canceled')
+    if status == 'atrasada' && %w[pendente executando pausada finalizada atrasada cancelada].exclude?(activity_status)
+      errors.add(:activity_status, 'status must be pending or executing or stopped or fineshed or late or canceled')
     end
 
-    if status == 'nova' && %w[nova pendente].exclude?(activity_status)
+    if status == 'nova' && %w[nova pendente atrasada].exclude?(activity_status)
       errors.add(:activity_status, 'status must be new or pending or late or canceled')
     end
 

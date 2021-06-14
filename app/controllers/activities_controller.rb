@@ -71,8 +71,8 @@ class ActivitiesController < ApplicationController
   end
 
   def validated_late_activity
-    hoje = Time.current
-    Activity.where('activity_status': %w[pendente executando pausada atrasada]).and(Activity.where('expected_final_date < ?', hoje)).each do |activity|
+    hoje = Date.current
+    Activity.where('activity_status': %w[nova pendente executando pausada atrasada]).and(Activity.where('expected_final_date < ?', hoje)).each do |activity|
       activity.update!(activity_status: 'atrasada')
     end
   end
